@@ -1,0 +1,44 @@
+{
+  "name": "@midwayjs/grpc-helper",
+  "version": "1.0.0",
+  "description": "Midway gRPC helper",
+  "main": "dist/index",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "midway-bin build -c",
+    "test": "midway-bin test --ts",
+    "cov": "midway-bin cov --ts",
+    "ci": "npm run test"
+  },
+  "bin": {
+    "tsproto": "bin/tsproto.js"
+  },
+  "keywords": [
+    "midway",
+    "gRPC",
+    "proto",
+    "generator"
+  ],
+  "files": [
+    "bin",
+    "template.hbs",
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^14.0.11",
+    "@midwayjs/cli": "^1.2.36",
+    "fs-extra": "^8.0.1"
+  },
+  "dependencies": {
+    "nestjs-proto-gen-ts": "^1.0.0",
+    "chalk": "^4.0.0",
+    "yargs": "^15.3.1"
+  },
+  "author": "Harry Chen <czy88840616@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/midwayjs/grpc-helper.git"
+  }
+}
