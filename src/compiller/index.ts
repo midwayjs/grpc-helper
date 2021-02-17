@@ -119,8 +119,9 @@ export class Compiler {
     this.walkTree(root);
 
     const results = compile(tmpl)(root);
+
     const outputFile = this.options.output
-      ? join(this.options.output, file.replace(/^.+?[/\\]/, ''))
+      ? join(this.options.output, basename(file))
       : file;
     const outputPath = join(
       dirname(outputFile),
