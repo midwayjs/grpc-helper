@@ -46,14 +46,14 @@ import { Metadata } from '@grpc/grpc-js';
 
 export namespace hero {
   export interface HeroesService {
-      findOne(data: HeroById, metadata?: Metadata): Promise<Hero>;
+    findOne(data: HeroById, metadata?: Metadata): Promise<Hero>;
   }
   export interface HeroById {
-      id?: number;
+    id?: number;
   }
   export interface Hero {
-      id?: number;
-      name?: string;
+    id?: number;
+    name?: string;
   }
 }
 ```
@@ -76,10 +76,6 @@ Ignore directories or files:
 ```bash
 $ tsproto --path grpc-proto --ignore grpc-proto/ignore-dir
 ```
-Custom handlebar's template for output:
-```bash
-$ tsproto --path grpc-proto --template custom-template.hbs
-```
 
 ## Options
 
@@ -90,8 +86,6 @@ The following options are available:
   --help, -h      Show help                                            [boolean]
   --path, -p      Path to root directory                      [array] [required]
   --output, -o    Path to output directory                              [string]
-  --template      Handlebar's template for output
-                                 [string] [default: "templates/nestjs-grpc.hbs"]
   --target, -t    Proto files                      [array] [default: [".proto"]]
   --ignore, -i    Ignore file or directories
                                       [array] [default: ["node_modules","dist"]]

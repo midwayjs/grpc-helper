@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package multipackage.proto;
+
+import "google/protobuf/timestamp.proto";
+import "multipackage.enum.proto";
+
+// Test comment
+service Multipackage {
+    // Test comment
+    // Test comment
+    rpc MultipackageRpc(MultipackageRequest) returns (MultipackageResponse);
+}
+
+// Test comment
+// ----------------------------------------------------------------------
+
+// Test comment
+message MultipackageRequest {
+    // Test comment
+    repeated string field1 = 1;  // Test comment
+    // Test comment
+    multipackageenum.MultipackageEnum field2 = 2;  // Test comment
+    // Test comment
+    google.protobuf.Timestamp field3 = 3;  // Test comment
+}
+
+// Test comment
+message MultipackageResponse {
+}

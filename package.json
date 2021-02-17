@@ -5,10 +5,12 @@
   "main": "dist/index",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "midway-bin build -c",
+    "build": "midway-bin build -c && rm -rf ./dist/.mwcc-cache",
     "test": "midway-bin test --ts",
     "cov": "midway-bin cov --ts",
-    "ci": "npm run test"
+    "ci": "npm run test",
+    "lint": "mwts lint",
+    "lint:fix": "mwts fix"
   },
   "bin": {
     "tsproto": "bin/tsproto.js"
@@ -28,13 +30,14 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^14.0.11",
-    "@midwayjs/cli": "^1.2.36",
-    "fs-extra": "^8.0.1",
+    "@midwayjs/cli": "^1.0.0",
     "mwts": "^1.0.5"
   },
   "dependencies": {
-    "nestjs-proto-gen-ts": "^1.0.0",
     "chalk": "^4.0.0",
+    "fs-extra": "^9.0.1",
+    "handlebars": "^4.7.6",
+    "protobufjs": "^6.9.0",
     "yargs": "^15.3.1"
   },
   "author": "Harry Chen <czy88840616@gmail.com>",
