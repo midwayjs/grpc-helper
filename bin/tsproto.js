@@ -1,5 +1,5 @@
 #! /usr/bin/env node
-const { Compiller } = require('./dist/compiller');
+const { Compiler } = require('../dist/');
 const { usage } = require('yargs');
 const { red } = require('chalk');
 const { join } = require('path');
@@ -71,7 +71,7 @@ const cli = usage('Extract and merge locale files.\nUsage: $0 [options]')
  * @type {Compiller}
  * @param {IGenOptions}
  */
-const compiller = new Compiller({ ...options, ...cli });
+const compiller = new Compiler({ ...options, ...cli });
 
 /** CLI Task Run */
 compiller.compile();
