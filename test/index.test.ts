@@ -4,7 +4,7 @@ import { join } from 'path';
 import { remove, readFileSync } from 'fs-extra';
 
 describe('/test/index.test.ts', () => {
-  it.only('test generate ts interface', async () => {
+  it('test generate ts interface', async () => {
     const compiler = new Compiler({
       path: ['test/fixtures'],
       target: ['.proto'],
@@ -35,6 +35,7 @@ describe('/test/index.test.ts', () => {
     await remove(join(__dirname, './fixtures/hero.ts'));
     await remove(join(__dirname, './fixtures/helloworld.ts'));
     await remove(join(__dirname, './fixtures/math.ts'));
+    await remove(join(__dirname, './fixtures/hello_stream.ts'));
   });
 
   it('test generate ts interface to specified directory', async () => {
