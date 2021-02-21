@@ -4,7 +4,7 @@ import { join } from 'path';
 import { remove, readFileSync } from 'fs-extra';
 
 describe('/test/index.test.ts', () => {
-  it('test generate ts interface', async () => {
+  it.only('test generate ts interface', async () => {
     const compiler = new Compiler({
       path: ['test/fixtures'],
       target: ['.proto'],
