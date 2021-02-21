@@ -1,4 +1,11 @@
 
+1.0.3 / 2021-02-22
+==================
+
+  * test: update test
+  * chore: add  case (#3)
+  * fix: empty args and new client api
+
 1.0.2 / 2021-02-18
 ==================
 

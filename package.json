@@ -1,6 +1,6 @@
 {
   "name": "@midwayjs/grpc-helper",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Midway gRPC helper",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
