@@ -26,11 +26,11 @@ describe('/test/index.test.ts', () => {
 
     // client
     expect(content.includes('export interface MathClient {')).toBeTruthy();
-    expect(content.includes('add(): grpc.IClientUnaryService<AddArgs, Num>;')).toBeTruthy();
-    expect(content.includes('addMore(): grpc.IClientDuplexStreamService<AddArgs, Num>;')).toBeTruthy();
-    expect(content.includes('sumMany(): grpc.IClientReadableStreamService<AddArgs, Num>;')).toBeTruthy();
-    expect(content.includes('addMany(): grpc.IClientWritableStreamService<AddArgs, Num>;')).toBeTruthy();
-    expect(content.includes('addEmpty(): grpc.IClientUnaryService<any, any>;')).toBeTruthy();
+    expect(content.includes('add(options?: grpc.IClientOptions): grpc.IClientUnaryService<AddArgs, Num>;')).toBeTruthy();
+    expect(content.includes('addMore(options?: grpc.IClientOptions): grpc.IClientDuplexStreamService<AddArgs, Num>;')).toBeTruthy();
+    expect(content.includes('sumMany(options?: grpc.IClientOptions): grpc.IClientReadableStreamService<AddArgs, Num>;')).toBeTruthy();
+    expect(content.includes('addMany(options?: grpc.IClientOptions): grpc.IClientWritableStreamService<AddArgs, Num>;')).toBeTruthy();
+    expect(content.includes('addEmpty(options?: grpc.IClientOptions): grpc.IClientUnaryService<any, any>;')).toBeTruthy();
 
     await remove(join(__dirname, './fixtures/hero.ts'));
     await remove(join(__dirname, './fixtures/helloworld.ts'));
