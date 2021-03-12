@@ -30,13 +30,13 @@ registerHelper(
       resType = 'any';
     }
     if (isReqStream && isResStream) {
-      return `(): grpc.IClientDuplexStreamService<${reqType}, ${resType}>`;
+      return `(options?: grpc.IClientOptions): grpc.IClientDuplexStreamService<${reqType}, ${resType}>`;
     } else if (isReqStream && !isResStream) {
-      return `(): grpc.IClientWritableStreamService<${reqType}, ${resType}>`;
+      return `(options?: grpc.IClientOptions): grpc.IClientWritableStreamService<${reqType}, ${resType}>`;
     } else if (!isReqStream && isResStream) {
-      return `(): grpc.IClientReadableStreamService<${reqType}, ${resType}>`;
+      return `(options?: grpc.IClientOptions): grpc.IClientReadableStreamService<${reqType}, ${resType}>`;
     } else {
-      return `(): grpc.IClientUnaryService<${reqType}, ${resType}>`;
+      return `(options?: grpc.IClientOptions): grpc.IClientUnaryService<${reqType}, ${resType}>`;
     }
   }
 );
