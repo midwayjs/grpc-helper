@@ -9,7 +9,7 @@ const options = {
   output: null,
   target: ['.proto'],
   ignore: ['node_modules', 'dist'],
-  keepCase: false,
+  keepCase: true,
   comments: true,
   verbose: true,
 };
@@ -54,6 +54,12 @@ const cli = usage('Extract and merge locale files.\nUsage: $0 [options]')
   .option('verbose', {
     describe: 'Log all output to console',
     default: options.verbose,
+    type: 'boolean',
+  })
+  .option('keepCase', {
+    alias: 'k',
+    describe: 'keep property case',
+    default: options.keepCase,
     type: 'boolean',
   })
   .demandOption(
