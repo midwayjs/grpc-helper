@@ -42,11 +42,17 @@ $ tsproto --path ./hero-proto
 Output:
 
 ```ts
-import { Metadata } from '@grpc/grpc-js';
+import * as grpc from '@midwayjs/grpc';
 
 export namespace hero {
-  export interface HeroesService {
-    findOne(data: HeroById, metadata?: Metadata): Promise<Hero>;
+  export interface HeroService {
+    findOne(data: HeroById): Promise<Hero>;
+  }
+  /**
+   * HeroService client interface
+   */
+  export interface HeroServiceClient {
+    findOne(options?: grpc.IClientOptions): grpc.IClientUnaryService<HeroById, Hero>;
   }
   export interface HeroById {
     id?: number;
@@ -56,6 +62,8 @@ export namespace hero {
     name?: string;
   }
 }
+
+
 ```
 
 ## Usage
@@ -91,4 +99,5 @@ The following options are available:
                                       [array] [default: ["node_modules","dist"]]
   --comments, -c  Add comments from proto              [boolean] [default: true]
   --verbose       Log all output to console            [boolean] [default: true]
+  --keepCase, -k  keep property case                   [boolean] [default: true]
 ```
