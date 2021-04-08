@@ -29,8 +29,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^26.0.20",
     "@types/node": "^14.0.11",
+    "@types/jest": "^26.0.22",
     "@midwayjs/cli": "^1.0.0",
     "mwts": "^1.0.5"
   },
