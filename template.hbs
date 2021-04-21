@@ -24,11 +24,13 @@ import * as grpc from '@midwayjs/grpc';
 {{#if comment}}
   {{comment}}
 {{/if}}
+/* namespace {{@key}} start */
 export namespace {{@key}} {
   {{> selector }}
 }
-{{/inline}}
+/* namespace {{@key}} end */
 
+{{/inline}}
 {{#*inline "service"}}
 {{#each methods}}
 {{else}}

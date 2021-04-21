@@ -129,6 +129,10 @@ export class Compiler {
       `${basename(file, extname(file))}.ts`
     );
 
+    const originFile = readFileSync(file, 'utf8');
+    const data = originFile.match(/import\s"(.+)";/g);
+    console.log(data);
+
     outputFileSync(outputPath, results, 'utf8');
   }
 

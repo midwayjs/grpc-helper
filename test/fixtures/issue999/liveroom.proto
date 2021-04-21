@@ -1,0 +1,14 @@
+syntax = "proto3";
+package liveroom;  //协议包名
+option  go_package = "liveroom";
+import "base.proto";
+service LiveRoomService {
+// 玩家离开房间
+   rpc LeaveRoom (GetRoomReq) returns (base.Void) {
+      option (kitproto.id) = 4;
+   }
+}
+
+message GetRoomReq {
+   optional string   id              = 1[(gogoproto.nullable) = false];
+}
