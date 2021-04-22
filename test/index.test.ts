@@ -72,4 +72,35 @@ describe('/test/index.test.ts', () => {
 
     await remove(join(__dirname, './fixtures/keep_case/domain'));
   });
+
+  it('test fix issue 999', async () => {
+    const compiler = new Compiler({
+      path: ['test/fixtures/issue999'],
+      target: ['.proto'],
+      ignore: ['node_modules', 'dist'],
+      output: 'test/fixtures/issue999/domain',
+      keepCase: true,
+    });
+
+    compiler.compile();
+    expect(existsSync(join(__dirname, './fixtures/issue999/domain/base.ts'))).toBeTruthy();
+    expect(existsSync(join(__dirname, './fixtures/issue999/domain/gogo.ts'))).toBeTruthy();
+    expect(existsSync(join(__dirname, './fixtures/issue999/domain/liveroom.ts'))).toBeTruthy();
+
+    let content = readFileSync(join(__dirname, './fixtures/issue999/domain/base.ts'), 'utf8');
+    expect(content.includes('export namespace base {')).toBeTruthy();
+    expect(content.includes('import { gogo } from \'./gogo\';')).toBeTruthy();
+    expect(!content.includes('namespace gogo')).toBeTruthy();
+
+    content = readFileSync(join(__dirname, './fixtures/issue999/domain/gogo.ts'), 'utf8');
+    expect(content.includes('sayHello(data: HelloRequest): Promise<HelloReply>;')).toBeTruthy();
+
+    content = readFileSync(join(__dirname, './fixtures/issue999/domain/liveroom.ts'), 'utf8');
+    expect(content.includes('import { gogo } from \'./gogo\';')).toBeTruthy();
+    expect(content.includes('import { base } from \'./base\';')).toBeTruthy();
+    expect(!content.includes('namespace base')).toBeTruthy();
+    expect(!content.includes('namespace gogo')).toBeTruthy();
+
+    await remove(join(__dirname, './fixtures/issue999/domain'));
+  });
 });
