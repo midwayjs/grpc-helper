@@ -83,5 +83,24 @@ describe('/test/index.test.ts', () => {
     });
 
     compiler.compile();
+    expect(existsSync(join(__dirname, './fixtures/issue999/domain/base.ts'))).toBeTruthy();
+    expect(existsSync(join(__dirname, './fixtures/issue999/domain/gogo.ts'))).toBeTruthy();
+    expect(existsSync(join(__dirname, './fixtures/issue999/domain/liveroom.ts'))).toBeTruthy();
+
+    let content = readFileSync(join(__dirname, './fixtures/issue999/domain/base.ts'), 'utf8');
+    expect(content.includes('export namespace base {')).toBeTruthy();
+    expect(content.includes('import { gogo } from \'./gogo\';')).toBeTruthy();
+    expect(!content.includes('namespace gogo')).toBeTruthy();
+
+    content = readFileSync(join(__dirname, './fixtures/issue999/domain/gogo.ts'), 'utf8');
+    expect(content.includes('sayHello(data: HelloRequest): Promise<HelloReply>;')).toBeTruthy();
+
+    content = readFileSync(join(__dirname, './fixtures/issue999/domain/liveroom.ts'), 'utf8');
+    expect(content.includes('import { gogo } from \'./gogo\';')).toBeTruthy();
+    expect(content.includes('import { base } from \'./base\';')).toBeTruthy();
+    expect(!content.includes('namespace base')).toBeTruthy();
+    expect(!content.includes('namespace gogo')).toBeTruthy();
+
+    await remove(join(__dirname, './fixtures/issue999/domain'));
   });
 });
