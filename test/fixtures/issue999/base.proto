@@ -4,6 +4,7 @@ package base; //协议包名
 option go_package = "base";
 
 import "proto/gogo/gogo.proto";
+import "abc.proto";
 
 option (gogoproto.goproto_enum_prefix_all) = false;
 message Void {

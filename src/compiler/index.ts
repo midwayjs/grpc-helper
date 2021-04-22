@@ -20,9 +20,18 @@ import './handlebars/method-generate-helper';
 
 import { IGenOptions } from '../types';
 
+function formatImport(item: string) {
+  const prefix = /^\./.test(item) ? '' : './';
+  const arr = item.split('/');
+  const filename = arr[arr.length - 1];
+  return prefix + filename.replace('.proto', '');
+}
+
 /** Set Compiler */
 export class Compiler {
   constructor(private readonly options: IGenOptions) {}
+  private protoFiles: string[] = [];
+  private protoInfo = {};
 
   private resolveRootPath(root: Root): void {
     const paths = this.options.path;
@@ -105,7 +114,7 @@ export class Compiler {
     }
   }
 
-  private output(file: string, pkg: string, tmpl: string): void {
+  private output(file: string, tmpl: string): void {
     const root = new Root();
 
     this.resolveRootPath(root);
@@ -119,7 +128,37 @@ export class Compiler {
 
     this.walkTree(root);
 
-    const results = compile(tmpl)(root);
+    let results = compile(tmpl)(root);
+    const packageArr = [];
+
+    // 处理继承问题
+    results = results.replace("'@midwayjs/grpc';", matched => {
+      return [matched]
+        .concat(
+          this.protoInfo[file].imports.map(item => {
+            packageArr.push(this.findPackage(item));
+            return `import { ${this.findPackage(item)} } from '${formatImport(
+              item
+            )}';`;
+          })
+        )
+        .join('\n');
+    });
+
+    // 移除继承的代码
+    for (const name of packageArr) {
+      const regexp = new RegExp(
+        `\\/\\*.+package ${name} start[\\s\\S]*${name} end \\*\\/`,
+        'gm'
+      );
+      results = results.replace(regexp, '');
+    }
+
+    // 清理空导入
+    results = results.replace(/import { {2}} from '.+';\n/, '');
+
+    // 清理最后的换行
+    results = results.replace(/\n+$/, '\n');
 
     const outputFile = this.options.output
       ? join(this.options.output, basename(file))
@@ -129,27 +168,7 @@ export class Compiler {
       `${basename(file, extname(file))}.ts`
     );
 
-    const originFile = readFileSync(file, 'utf8');
-    const data = originFile.match(/import\s"(.+)";/g);
-    console.log(data);
-
     outputFileSync(outputPath, results, 'utf8');
-  }
-
-  private generate(path: string, pkg: string): void {
-    const hbTemplate = resolve(__dirname, '../../template.hbs');
-
-    if (!existsSync(hbTemplate)) {
-      throw new Error(`Template ${hbTemplate} is not found`);
-    }
-
-    const tmpl = readFileSync(hbTemplate, 'utf8');
-
-    if (this.options.verbose) {
-      console.log(chalk.blueBright('-- found: ') + chalk.gray(path));
-    }
-
-    this.output(path, pkg, tmpl);
   }
 
   private getProtoFiles(pkg: string): void {
@@ -170,7 +189,10 @@ export class Compiler {
       if (stat.isDirectory()) {
         this.getProtoFiles(filename);
       } else if (filename.indexOf(this.options.target.join()) > -1) {
-        this.generate(filename, pkg);
+        if (this.options.verbose) {
+          console.log(chalk.blueBright('-- found: ') + chalk.gray(filename));
+        }
+        this.protoFiles.push(filename);
       }
     }
   }
@@ -181,5 +203,43 @@ export class Compiler {
         this.getProtoFiles(pkg);
       }
     });
+
+    // 提前分析 package 和导入的情况
+    for (const filename of this.protoFiles) {
+      this.protoInfo[filename] = {};
+      const originFile = readFileSync(filename, 'utf8');
+      const regex1 = /import\s"(.+)";/g;
+      let array1;
+      const result = [];
+      while ((array1 = regex1.exec(originFile)) !== null) {
+        result.push(array1[1]);
+      }
+      const packageRegexp = /package\s+(.+);/;
+      const arr = packageRegexp.exec(originFile);
+      this.protoInfo[filename] = {
+        packageName: arr[1],
+        imports: result,
+      };
+    }
+
+    const hbTemplate = resolve(__dirname, '../../template.hbs');
+    if (!existsSync(hbTemplate)) {
+      throw new Error(`Template ${hbTemplate} is not found`);
+    }
+    const tmpl = readFileSync(hbTemplate, 'utf8');
+
+    for (const filename of this.protoFiles) {
+      this.output(filename, tmpl);
+    }
+  }
+
+  findPackage(p: string): string {
+    p = p.replace(/\.+\//g, '');
+    for (const key of Object.keys(this.protoInfo)) {
+      if (key.lastIndexOf(p) !== -1) {
+        return this.protoInfo[key].packageName;
+      }
+    }
+    return '';
   }
 }

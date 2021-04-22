@@ -72,8 +72,8 @@ describe('/test/index.test.ts', () => {
 
     await remove(join(__dirname, './fixtures/keep_case/domain'));
   });
-  
-  it.only('test fix issue 999', async () => {
+
+  it('test fix issue 999', async () => {
     const compiler = new Compiler({
       path: ['test/fixtures/issue999'],
       target: ['.proto'],
