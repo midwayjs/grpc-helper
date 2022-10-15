@@ -33,6 +33,11 @@ const cli = usage('Extract and merge locale files.\nUsage: $0 [options]')
     type: 'string',
     normalize: true,
   })
+  .option('reserve', {
+    describe: 'reserve directory',
+    type: 'boolean',
+    normalize: true,
+  })
   .option('target', {
     alias: 't',
     describe: 'Proto files',

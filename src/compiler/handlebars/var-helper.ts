@@ -1,5 +1,5 @@
-import { registerHelper } from 'handlebars';
+import * as handlebars from 'handlebars';
 
-registerHelper('var', (varName, varValue, options) => {
+handlebars.registerHelper('var', (varName, varValue, options) => {
   options.data.root[varName] = varValue;
 });

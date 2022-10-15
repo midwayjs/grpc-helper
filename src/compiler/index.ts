@@ -1,5 +1,5 @@
 import { Root, common, util, Enum } from 'protobufjs';
-import { resolve, basename, extname, join, dirname } from 'path';
+import { resolve, basename, extname, join, dirname, relative } from 'path';
 import {
   outputFileSync,
   existsSync,
@@ -160,9 +160,17 @@ export class Compiler {
     // 清理最后的换行
     results = results.replace(/\n+$/, '\n');
 
-    const outputFile = this.options.output
-      ? join(this.options.output, basename(file))
-      : file;
+    let outputFile;
+    if (this.options.reserve) {
+      outputFile = this.options.output
+        ? join(this.options.output, relative(this.options.path[0], file))
+        : file;
+    } else {
+      outputFile = this.options.output
+        ? join(this.options.output, basename(file))
+        : file;
+    }
+
     const outputPath = join(
       dirname(outputFile),
       `${basename(file, extname(file))}.ts`

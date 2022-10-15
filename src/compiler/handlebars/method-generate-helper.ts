@@ -1,6 +1,6 @@
-import { registerHelper } from 'handlebars';
+import * as handlebars from 'handlebars';
 
-registerHelper(
+handlebars.registerHelper(
   'server-method-signature',
   (reqType, resType, isReqStream, isResStream) => {
     if (reqType === 'google.protobuf.Empty') {
@@ -19,7 +19,7 @@ registerHelper(
   }
 );
 
-registerHelper(
+handlebars.registerHelper(
   'client-method-signature',
   (reqType, resType, isReqStream, isResStream) => {
     if (reqType === 'google.protobuf.Empty') {
@@ -41,7 +41,7 @@ registerHelper(
   }
 );
 
-registerHelper('client-method-name', serviceName => {
+handlebars.registerHelper('client-method-name', serviceName => {
   if (/Client$/.test(serviceName)) {
     return serviceName + 'Proxy';
   } else {
