@@ -35,7 +35,7 @@ const cli = usage('Extract and merge locale files.\nUsage: $0 [options]')
   })
   .option('reserve', {
     describe: 'reserve directory',
-    type: 'string',
+    type: 'boolean',
     normalize: true,
   })
   .option('target', {
