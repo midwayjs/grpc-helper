@@ -1,8 +1,7 @@
-import { registerHelper } from 'handlebars';
-
+import * as handlebars from 'handlebars';
 import { ENumberTypes } from '../../types';
 
-registerHelper('defaultValue', field => {
+handlebars.registerHelper('defaultValue', field => {
   if (field.type === 'string') {
     return '""';
   }

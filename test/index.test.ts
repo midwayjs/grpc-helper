@@ -13,7 +13,7 @@ describe('/test/index.test.ts', () => {
 
     compiler.compile();
 
-    expect(existsSync(join(__dirname, './fixtures/common/hero.ts'))).toBeTruthy();
+    expect(existsSync(join(__dirname, './fixtures/common/test/hero.ts'))).toBeTruthy();
     expect(existsSync(join(__dirname, './fixtures/common/helloworld.ts'))).toBeTruthy();
     expect(existsSync(join(__dirname, './fixtures/common/math.ts'))).toBeTruthy();
 
@@ -32,7 +32,7 @@ describe('/test/index.test.ts', () => {
     expect(content.includes('addMany(options?: grpc.IClientOptions): grpc.IClientWritableStreamService<AddArgs, Num>;')).toBeTruthy();
     expect(content.includes('addEmpty(options?: grpc.IClientOptions): grpc.IClientUnaryService<any, any>;')).toBeTruthy();
 
-    await remove(join(__dirname, './fixtures/common/hero.ts'));
+    await remove(join(__dirname, './fixtures/common/test/hero.ts'));
     await remove(join(__dirname, './fixtures/common/helloworld.ts'));
     await remove(join(__dirname, './fixtures/common/math.ts'));
     await remove(join(__dirname, './fixtures/common/hello_stream.ts'));
@@ -49,6 +49,24 @@ describe('/test/index.test.ts', () => {
     compiler.compile();
 
     expect(existsSync(join(__dirname, './fixtures/common/domain/hero.ts'))).toBeTruthy();
+    expect(existsSync(join(__dirname, './fixtures/common/domain/helloworld.ts'))).toBeTruthy();
+    expect(existsSync(join(__dirname, './fixtures/common/domain/math.ts'))).toBeTruthy();
+
+    await remove(join(__dirname, './fixtures/common/domain'));
+  });
+
+  it('test generate ts interface to specified directory with reserve directory', async () => {
+    const compiler = new Compiler({
+      path: ['test/fixtures/common'],
+      target: ['.proto'],
+      ignore: ['node_modules', 'dist'],
+      output: 'test/fixtures/common/domain',
+      reserve: true
+    });
+
+    compiler.compile();
+
+    expect(existsSync(join(__dirname, './fixtures/common/domain/test/hero.ts'))).toBeTruthy();
     expect(existsSync(join(__dirname, './fixtures/common/domain/helloworld.ts'))).toBeTruthy();
     expect(existsSync(join(__dirname, './fixtures/common/domain/math.ts'))).toBeTruthy();
 

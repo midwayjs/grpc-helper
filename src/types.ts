@@ -15,6 +15,8 @@ export interface IGenOptions {
   comments?: boolean;
   // Log all output to console
   verbose?: boolean;
+  // Reserve output directory
+  reserve?: boolean;
 }
 
 export enum ENumberTypes {

@@ -1,6 +1,6 @@
-import { registerHelper } from 'handlebars';
+import * as handlebars from 'handlebars';
 
-registerHelper('comment', function (this: any) {
+handlebars.registerHelper('comment', function (this: any) {
   if (this.comment) {
     return `// ${this.comment.replace(/\n/g, '\n// ')}`;
   }
